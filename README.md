@@ -1,38 +1,186 @@
-# 1. Events
+Just migrated it from [Cheat sheet for moving from jQuery to vanilla JavaScript](https://tobiasahlin.com/blog/move-from-jquery-to-vanilla-javascript/) to markdown. Credit goes to [Tobias Ahlin Bjerrome](https://tobiasahlin.com).
+
+|   |  |  |  |
+| ------------- | ------------- | ------------- | ------------- |
+| [Selecting elements](#selecting-elements)  | [Events](#events) | [.css()](#css)  | [Document ready](#document-ready)  |
+| [Creating elements](#creating-elements) | [Classes](#classes)  | [.ajax()](#ajax) | [HTML & text](#html-text)  |
+
+# Selecting elements
 
 ```javascript
-window.addEventListener('DOMContentLoaded', event => {
-  /* Your DOM just loaded */
-});
+// jQuery, select all instances of .box
+$(".box");
 
-window.onload = event => {
-  /* Your media (images, etc.) just loaded */
-}
+// Instead, select the first instance of .box
+document.querySelector(".box");
 
-```
+// …or select all instances of .box  
+document.querySelectorAll(".box");
 
-# 2. jQuery-like selector
-
-```javascript
+// Pro tip: jQuery-like selector:
 let $ = selector => document.querySelector(selector);
 let $$ = selector => document.querySelectorAll(selector);
 
 // Example:
-$('.my-first-div-with-class');
-$$('.all-divs-with-class');
+$('.box');
+$$('.box');
 
 ```
-# 3. Async calls
+
+## Running a function on all elements in a selection
 
 ```javascript
-let make = function(payload) { return { method: 'post',
-    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload) };
+// with jQuery
+// Hide all instances of .box
+$(".box").hide();
+
+// Without jQuery
+// Iterate over the nodelist of elements to hide all instances of .box
+document.querySelectorAll(".box").forEach(box => { box.style.display = "none" })
+
+```
+
+## Finding one element within another
+
+```javascript
+// With jQuery
+// Select the first instance of .box within .container
+var container = $(".container");
+// Later...
+container.find(".box");
+
+// Without jQuery
+// Select the first instance of .box within .container
+var container = document.querySelector(".container");
+// Later...
+container.querySelector(".box");
+
+```
+
+## Traversing the tree with parent(), next(), and prev()
+
+```javascript
+// with jQuery
+// Return the next, previous, and parent element of .box
+$(".box").next();
+$(".box").prev();
+$(".box").parent();
+
+// Without jQuery
+// Return the next, previous, and parent element of .box
+var box = document.querySelector(".box");
+box.nextElementSibling;
+box.previousElementSibling;
+box.parentElement;
+
+```
+
+
+# Creating elements
+
+```javascript
+// Create a div & span
+$("<div/>");
+$("<span/>");
+
+// Create a div and a span
+document.createElement("div");
+document.createElement("span");
+
+var element = document.createElement("div");
+element.textContent = "Text"
+// or create a textNode and append it
+var text = document.createTextNode("Text");
+element.appendChild(text);
+
+```
+
+# Events
+
+```javascript
+// With jQuery
+$(".button").click(function(e) { /* handle click event */ });
+$(".button").mouseenter(function(e) {  /* handle click event */ });
+$(document).keyup(function(e) {  /* handle key up event */  });
+
+// Without jQuery
+document.querySelector(".button").addEventListener("click", (e) => { /* ... */ });
+document.querySelector(".button").addEventListener("mouseenter", (e) => { /* ... */ });
+document.addEventListener("keyup", (e) => { /* ... */ });
+
+```
+
+## Event listening for dynamically added elements
+
+```javascript
+// With jQuery
+// Handle click events .search-result elements, 
+// even when they're added to the DOM programmatically
+$(".search-container").on("click", ".search-result", handleClick);
+
+// Without jQuery
+// Create and add an element to the DOM
+var searchElement = document.createElement("div");
+document.querySelector(".search-container").appendChild(searchElement);
+// Add an event listener to the element
+searchElement.addEventListener("click", handleClick);
+
+```
+
+## Triggering and creating events
+
+```javascript
+// With jQuery
+// Trigger myEvent on document and .box
+$(document).trigger("myEvent");
+$(".box").trigger("myEvent");
+
+// Without jQuery
+// Create and dispatch myEvent
+document.dispatchEvent(new Event("myEvent"));
+document.querySelector(".box").dispatchEvent(new Event("myEvent"));
+
+```
+
+# Classes
+
+```javascript
+// With jQuery
+// Add, remove, and the toggle the "focus" class
+$(".box").addClass("focus");
+$(".box").removeClass("focus");
+$(".box").toggleClass("focus");
+
+// Without jQuery
+// Add, remove, and the toggle the "focus" class
+var box = document.querySelector(".box");
+box.classList.add("focus");
+box.classList.remove("focus");
+box.classList.toggle("focus");
+
+// Add "focus" and "highlighted" classes, and then remove them
+var box = document.querySelector(".box");
+box.classList.add("focus", "highlighted");
+box.classList.remove("focus", "highlighted");
+
+// Remove the "focus" class and add "blurred"
+document.querySelector(".box").classList.replace("focus", "blurred");
+
+```
+
+## Checking if an element has a class
+
+```javascript
+// With jQuery
+// Check if .box has a class of "focus", and do something
+if ($(".box").hasClass("focus")) {
+  // Do something...
 }
 
-fetch("https://www.twitter.com/followers.json", make({token:token})).then( (response) => response.text().then(msg => {
-    console.log(msg); // Text message returned from the server
-}));  
+// Without jQuery
+// Check if .box has a class of "focus", and do something
+if (document.querySelector(".box").classList.contains("focus")) {
+  // Do something...
+}
+```
 
-```                                      
-    
