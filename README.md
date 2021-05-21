@@ -3,7 +3,7 @@ Just migrated it from [Cheat sheet for moving from jQuery to vanilla JavaScript]
 |   |  |  |  |
 | ------------- | ------------- | ------------- | ------------- |
 | [Selecting elements](#selecting-elements)  | [Events](#events) | [.css()](#css)  | [Document ready](#document-ready)  |
-| [Creating elements](#creating-elements) | [Classes](#classes)  | [.ajax()](#ajax) | [HTML & text](#html-text)  |
+| [Creating elements](#creating-elements) | [Classes](#classes)  | [.ajax()](#ajax) | [HTML & text](#html-&-text)  |
 
 # Selecting elements
 
@@ -183,4 +183,123 @@ if (document.querySelector(".box").classList.contains("focus")) {
   // Do something...
 }
 ```
+
+# CSS
+
+```javascript
+// With jQuery
+// Select .box and change text color to #000
+$(".box").css("color", "#000");
+
+// Without jQuery
+// Select the first .box and change its text color to #000
+document.querySelector(".box").style.color = "#000";
+
+// With jQuery
+// Pass multiple styles
+$(".box").css({
+  "color": "#000",
+  "background-color": "red"
+});
+
+// Without jQuery
+// Set color to #000 and background to red
+var box = document.querySelector(".box");
+box.style.color = "#000";
+box.style.backgroundColor = "red";
+
+// Set all styles at once (and override any existing styles)
+box.style.cssText = "color: #000; background-color: red";
+```
+
+## hide() and show()
+
+```javascript
+// With jQuery
+// Hide and show and element
+$(".box").hide();
+$(".box").show();
+
+// Without jQuery
+// Hide and show an element by changing "display" to block and none
+document.querySelector(".box").style.display = "none";
+document.querySelector(".box").style.display = "block";
+```
+
+# Ajax
+
+```javascript
+// With jQuery
+$.ajax({
+    url: "data.json"
+  }).done(function(data) {
+    // ...
+  }).fail(function() {
+    // Handle error
+  });
+
+// Without jQuery
+fetch("data.json")
+  .then(data => {
+    // Handle data
+  }).catch(error => {
+    // Handle error
+  });
+```
+
+# Document ready
+
+```javascript
+// With jQuery
+$(document).ready(function() { 
+  /* Do things after DOM has fully loaded */
+});
+
+// Without jQuery
+// Define a convenience method and use it
+var ready = (callback) => {
+  if (document.readyState != "loading") callback();
+  else document.addEventListener("DOMContentLoaded", callback);
+}
+
+ready(() => { 
+  /* Do things after DOM has fully loaded */ 
+});
+```
+
+# HTML & text
+
+```javascript
+// With jQuery
+// Update the text of a .button
+$(".button").text("New text");
+// Read the text of a .button
+$(".button").text(); // Returns "New text"
+
+// Without jQuery
+// Update the text of a .button
+document.querySelector(".button").textContent = "New text";
+// Read the text of a .button
+document.querySelector(".button").textContent; // Returns "New text"
+
+// Create div element and append it to .container
+$(".container").append($("<div/>"));
+
+// Create a div and append it to .container
+var element = document.createElement("div");
+document.querySelector(".container").appendChild(element);
+
+// Create a div
+var element = document.createElement("div");
+
+// Update its class
+element.classList.add("box");
+
+// Set its text
+element.textContent = "Text inside box";
+
+// Append the element to .container
+document.querySelector(".container").appendChild(element);
+```
+
 
