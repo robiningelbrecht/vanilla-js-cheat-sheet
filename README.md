@@ -3,7 +3,7 @@ Just migrated it from [Cheat sheet for moving from jQuery to vanilla JavaScript]
 |   |  |  |  |
 | ------------- | ------------- | ------------- | ------------- |
 | [Selecting elements](#selecting-elements)  | [Events](#events) | [.css()](#css)  | [Document ready](#document-ready)  |
-| [Creating elements](#creating-elements) | [Classes](#classes)  | [.ajax()](#ajax) | [HTML & text](#html-&-text)  |
+| [Creating elements](#creating-elements) | [Classes](#classes)  | [.ajax()](#ajax) | [HTML & text](#html--text)  |
 
 # Selecting elements
 
